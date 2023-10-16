@@ -4,30 +4,30 @@
 
 import numpy as np
 import tensorflow as tf
-
+tf.compat.v1.disable_eager_execution()
 class DQN:
     def __init__(self, params):
         self.params = params
         self.network_name = 'qnet'
-        self.sess = tf.Session()
-        self.x = tf.placeholder('float', [None, params['width'],params['height'], 6],name=self.network_name + '_x')
-        self.q_t = tf.placeholder('float', [None], name=self.network_name + '_q_t')
-        self.actions = tf.placeholder("float", [None, 4], name=self.network_name + '_actions')
-        self.rewards = tf.placeholder("float", [None], name=self.network_name + '_rewards')
-        self.terminals = tf.placeholder("float", [None], name=self.network_name + '_terminals')
+        self.sess = tf.compat.v1.Session()
+        self.x = tf.compat.v1.placeholder('float', [None, params['width'],params['height'], 6],name=self.network_name + '_x')
+        self.q_t = tf.compat.v1.placeholder('float', [None], name=self.network_name + '_q_t')
+        self.actions = tf.compat.v1.placeholder("float", [None, 4], name=self.network_name + '_actions')
+        self.rewards = tf.compat.v1.placeholder("float", [None], name=self.network_name + '_rewards')
+        self.terminals = tf.compat.v1.placeholder("float", [None], name=self.network_name + '_terminals')
 
         # Layer 1 (Convolutional)
         layer_name = 'conv1' ; size = 3 ; channels = 6 ; filters = 16 ; stride = 1
-        self.w1 = tf.Variable(tf.random_normal([size,size,channels,filters], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
+        self.w1 = tf.Variable(tf.random.normal([size,size,channels,filters], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
         self.b1 = tf.Variable(tf.constant(0.1, shape=[filters]),name=self.network_name + '_'+layer_name+'_biases')
-        self.c1 = tf.nn.conv2d(self.x, self.w1, strides=[1, stride, stride, 1], padding='SAME',name=self.network_name + '_'+layer_name+'_convs')
+        self.c1 = tf.nn.conv2d(self.x, filters=self.w1, strides=[1, stride, stride, 1], padding='SAME',name=self.network_name + '_'+layer_name+'_convs')
         self.o1 = tf.nn.relu(tf.add(self.c1,self.b1),name=self.network_name + '_'+layer_name+'_activations')
 
         # Layer 2 (Convolutional)
         layer_name = 'conv2' ; size = 3 ; channels = 16 ; filters = 32 ; stride = 1
-        self.w2 = tf.Variable(tf.random_normal([size,size,channels,filters], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
+        self.w2 = tf.Variable(tf.random.normal([size,size,channels,filters], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
         self.b2 = tf.Variable(tf.constant(0.1, shape=[filters]),name=self.network_name + '_'+layer_name+'_biases')
-        self.c2 = tf.nn.conv2d(self.o1, self.w2, strides=[1, stride, stride, 1], padding='SAME',name=self.network_name + '_'+layer_name+'_convs')
+        self.c2 = tf.nn.conv2d(self.o1, filters=self.w2, strides=[1, stride, stride, 1], padding='SAME',name=self.network_name + '_'+layer_name+'_convs')
         self.o2 = tf.nn.relu(tf.add(self.c2,self.b2),name=self.network_name + '_'+layer_name+'_activations')
         
         o2_shape = self.o2.get_shape().as_list()        
@@ -35,21 +35,21 @@ class DQN:
         # Layer 3 (Fully connected)
         layer_name = 'fc3' ; hiddens = 256 ; dim = o2_shape[1]*o2_shape[2]*o2_shape[3]
         self.o2_flat = tf.reshape(self.o2, [-1,dim],name=self.network_name + '_'+layer_name+'_input_flat')
-        self.w3 = tf.Variable(tf.random_normal([dim,hiddens], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
+        self.w3 = tf.Variable(tf.random.normal([dim,hiddens], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
         self.b3 = tf.Variable(tf.constant(0.1, shape=[hiddens]),name=self.network_name + '_'+layer_name+'_biases')
         self.ip3 = tf.add(tf.matmul(self.o2_flat,self.w3),self.b3,name=self.network_name + '_'+layer_name+'_ips')
         self.o3 = tf.nn.relu(self.ip3,name=self.network_name + '_'+layer_name+'_activations')
 
         # Layer 4
         layer_name = 'fc4' ; hiddens = 4 ; dim = 256
-        self.w4 = tf.Variable(tf.random_normal([dim,hiddens], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
+        self.w4 = tf.Variable(tf.random.normal([dim,hiddens], stddev=0.01),name=self.network_name + '_'+layer_name+'_weights')
         self.b4 = tf.Variable(tf.constant(0.1, shape=[hiddens]),name=self.network_name + '_'+layer_name+'_biases')
         self.y = tf.add(tf.matmul(self.o3,self.w4),self.b4,name=self.network_name + '_'+layer_name+'_outputs')
 
         #Q,Cost,Optimizer
         self.discount = tf.constant(self.params['discount'])
         self.yj = tf.add(self.rewards, tf.multiply(1.0-self.terminals, tf.multiply(self.discount, self.q_t)))
-        self.Q_pred = tf.reduce_sum(tf.multiply(self.y,self.actions), reduction_indices=1)
+        self.Q_pred = tf.reduce_sum(tf.multiply(self.y,self.actions), axis=1)
         self.cost = tf.reduce_sum(tf.pow(tf.subtract(self.yj, self.Q_pred), 2))
         
         if self.params['load_file'] is not None:
@@ -58,10 +58,10 @@ class DQN:
             self.global_step = tf.Variable(0, name='global_step', trainable=False)
         
         # self.optim = tf.train.RMSPropOptimizer(self.params['lr'],self.params['rms_decay'],0.0,self.params['rms_eps']).minimize(self.cost,global_step=self.global_step)
-        self.optim = tf.train.AdamOptimizer(self.params['lr']).minimize(self.cost, global_step=self.global_step)
-        self.saver = tf.train.Saver(max_to_keep=0)
+        self.optim = tf.compat.v1.train.AdamOptimizer(self.params['lr']).minimize(self.cost, global_step=self.global_step)
+        self.saver = tf.compat.v1.train.Saver(max_to_keep=0)
 
-        self.sess.run(tf.global_variables_initializer())
+        self.sess.run(tf.compat.v1.global_variables_initializer())
 
         if self.params['load_file'] is not None:
             print('Loading checkpoint...')
