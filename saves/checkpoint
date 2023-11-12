@@ -1,2 +1,2 @@
-model_checkpoint_path: "model-version2_47335_695"
-all_model_checkpoint_paths: "model-version2_47335_695"
+model_checkpoint_path: "model-DQN2_47302_725"
+all_model_checkpoint_paths: "model-DQN2_47302_725"
