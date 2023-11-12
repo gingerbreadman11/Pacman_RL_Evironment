@@ -28,13 +28,15 @@ from DQN import *
 params = {
     # Model backups
     'load_file': None,
-    'save_file': None,
-    'save_interval' : 10000, 
-
+    # 'load_file': 'saves/model-v2plswork_913_254',
+    # 'save_file': None,
+    'save_file': 'version1',
+    #'save_interval' : 10000, 
+    'save_interval': 50000,
     # Training parameters
-    'train_start': 5000,    # Episodes before training starts
-    'batch_size': 32,       # Replay memory batch size
-    'mem_size': 100000,     # Replay memory size
+    'train_start': 2000,    # Episodes before training starts 5000
+    'batch_size': 32,       # Replay memory batch size 32
+    'mem_size': 100000,     # Replay memory size 100000
 
     'discount': 0.95,       # Discount rate (gamma value)
     'lr': .0002,            # Learning reate
@@ -43,8 +45,8 @@ params = {
 
     # Epsilon value (epsilon-greedy)
     'eps': 1.0,             # Epsilon start value
-    'eps_final': 0.1,       # Epsilon end value
-    'eps_step': 10000       # Epsilon steps between start and end (linear)
+    'eps_final': 0.01,       # Epsilon end value
+    'eps_step': 100000       # Epsilon steps between start and end (linear) 10000
 }                     
 
 
@@ -59,6 +61,12 @@ class PacmanDQN(game.Agent):
         self.params['width'] = args['width']
         self.params['height'] = args['height']
         self.params['num_training'] = args['numTraining']
+
+        #trying to take in the arguments from the command line
+        # Update params with command-line arguments
+        for key, value in args.items():
+            if key in self.params:
+                self.params[key] = value
 
         # Start Tensorflow session
         gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.1)
