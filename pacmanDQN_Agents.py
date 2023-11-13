@@ -25,15 +25,16 @@ from collections import deque
 import tensorflow as tf
 from DQN import *
 from DQN2 import *
+from DQN5 import *
 
 params = {
     # Model backups
     'load_file': None,
     # 'load_file': 'saves/model-v2plswork_913_254',
     # 'save_file': None,
-    'save_file': 'ultimate',
+    'save_file': 'googlecolab',
     #'save_interval' : 10000, 
-    'save_interval': 100000,
+    'save_interval': 10000,
     # Training parameters
     'train_start': 10000,    # Episodes before training starts 5000
     'batch_size': 32,       # Replay memory batch size 32
@@ -46,8 +47,8 @@ params = {
 
     # Epsilon value (epsilon-greedy)
     'eps': 1.0,             # Epsilon start value
-    'eps_final': 0.01,       # Epsilon end value
-    'eps_step': 10000       # Epsilon steps between start and end (linear) 10000
+    'eps_final': 0.05,       # Epsilon end value
+    'eps_step': 150000       # Epsilon steps between start and end (linear) 10000
 }                     
 
 
@@ -72,7 +73,7 @@ class PacmanDQN(game.Agent):
         # Start Tensorflow session
         gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.1)
         self.sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
-        self.qnet = DQN(self.params)
+        self.qnet = DQN5(self.params)
 
         # time started
         self.general_record_time = time.strftime("%a_%d_%b_%Y_%H_%M_%S", time.localtime())
