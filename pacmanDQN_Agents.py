@@ -47,8 +47,8 @@ params = {
 
     # Epsilon value (epsilon-greedy)
     'eps': 1.0,             # Epsilon start value
-    'eps_final': 0.05,       # Epsilon end value
-    'eps_step': 150000       # Epsilon steps between start and end (linear) 10000
+    'eps_final': 0.1,       # Epsilon end value
+    'eps_step': 1000000       # Epsilon steps between start and end (linear) 10000
 }                     
 
 
