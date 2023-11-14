@@ -23,8 +23,9 @@ from collections import deque
 
 # Neural nets
 import tensorflow as tf
-from DQN import *
 from DQN2 import *
+from DQN3 import *
+from DQN import *
 from DQN5 import *
 
 params = {
@@ -32,24 +33,24 @@ params = {
     'load_file': None,
     # 'load_file': 'saves/model-v2plswork_913_254',
     # 'save_file': None,
-    'save_file': 'googlecolab',
+    'save_file': '3layer',
     #'save_interval' : 10000, 
-    'save_interval': 10000,
+    'save_interval': 50000,
     # Training parameters
-    'train_start': 10000,    # Episodes before training starts 5000
+    'train_start': 1000,    # Episodes before training starts 5000
     'batch_size': 32,       # Replay memory batch size 32
-    'mem_size': 100000,     # Replay memory size 100000
+    'mem_size': 50000,     # Replay memory size 100000
 
     'discount': 0.95,       # Discount rate (gamma value)
-    'lr': .0002,            # Learning reate
+    'lr': .0005,            # Learning reate .0002
     # 'rms_decay': 0.99,      # RMS Prop decay (switched to adam)
     # 'rms_eps': 1e-6,        # RMS Prop epsilon (switched to adam)
 
     # Epsilon value (epsilon-greedy)
     'eps': 1.0,             # Epsilon start value
     'eps_final': 0.1,       # Epsilon end value
-    'eps_step': 1000000       # Epsilon steps between start and end (linear) 10000
-}                     
+    'eps_step': 300000       # Epsilon steps between start and end (linear) 10000
+}                       
 
 
 
@@ -159,16 +160,16 @@ class PacmanDQN(game.Agent):
             if reward > 20:
                 self.last_reward = 50.    # Eat ghost   (Yum! Yum!)
             elif reward > 0:
-                self.last_reward = 10.    # Eat food    (Yum!)
+                self.last_reward = 20.    # Eat food    (Yum!)10
             elif reward < -10:
                 self.last_reward = -500.  # Get eaten   (Ouch!) -500
                 self.won = False
             elif reward < 0:
-                self.last_reward = -1.    # Punish time (Pff..)
+                self.last_reward = -2.    # Punish time (Pff..)-1
 
             
             if(self.terminal and self.won):
-                self.last_reward = 100.
+                self.last_reward = 200.
             self.ep_rew += self.last_reward
 
             # Store last experience into memory 
