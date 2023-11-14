@@ -33,7 +33,7 @@ params = {
     'load_file': None,
     # 'load_file': 'saves/model-v2plswork_913_254',
     # 'save_file': None,
-    'save_file': '3layer',
+    'save_file': '5layer_grid',
     #'save_interval' : 10000, 
     'save_interval': 50000,
     # Training parameters
@@ -42,14 +42,14 @@ params = {
     'mem_size': 50000,     # Replay memory size 100000
 
     'discount': 0.95,       # Discount rate (gamma value)
-    'lr': .0005,            # Learning reate .0002
+    'lr': .0001,            # Learning reate .0002
     # 'rms_decay': 0.99,      # RMS Prop decay (switched to adam)
     # 'rms_eps': 1e-6,        # RMS Prop epsilon (switched to adam)
 
     # Epsilon value (epsilon-greedy)
     'eps': 1.0,             # Epsilon start value
-    'eps_final': 0.1,       # Epsilon end value
-    'eps_step': 300000       # Epsilon steps between start and end (linear) 10000
+    'eps_final': 0.05,       # Epsilon end value
+    'eps_step': 500000       # Epsilon steps between start and end (linear) 10000
 }                       
 
 
@@ -74,7 +74,7 @@ class PacmanDQN(game.Agent):
         # Start Tensorflow session
         gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.1)
         self.sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
-        self.qnet = DQN3(self.params)
+        self.qnet = DQN5(self.params)
 
         # time started
         self.general_record_time = time.strftime("%a_%d_%b_%Y_%H_%M_%S", time.localtime())

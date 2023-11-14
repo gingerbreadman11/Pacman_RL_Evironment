@@ -6,7 +6,7 @@ def extract_q_values(log_file_name):
     q_values = []
     with open(log_file_name, 'r') as file:
         for i, line in enumerate(file):
-            if i % 50 == 0:  # Only read every nth line
+            if i % 100 == 0:  # Only read every nth line
                 match = re.search(r'Q:\s*([-\d.]+)', line)
                 if match:
                     q_value = float(match.group(1))
@@ -17,7 +17,7 @@ def extract_r_values(log_file_name):
     r_values = []
     with open(log_file_name, 'r') as file:
         for i, line in enumerate(file):
-            if i % 50 == 0:  # Only read every nth line
+            if i % 100 == 0:  # Only read every nth line
                 match = re.search(r'r:\s*([-\d.]+)', line)
                 if match:
                     r_value = float(match.group(1))
@@ -26,7 +26,7 @@ def extract_r_values(log_file_name):
 
 def plot_q_values(q_values, title):
     plt.plot(range(1, len(q_values) + 1), q_values, marker='o')
-    plt.xlabel('Episodes X 50')
+    plt.xlabel('Episodes X 100')
     plt.ylabel('Q Value')
     plt.title(title)
     # Save plot
@@ -35,7 +35,7 @@ def plot_q_values(q_values, title):
 
 def plot_r_values(r_values, title):
     plt.plot(range(1, len(r_values) + 1), r_values, marker='o')
-    plt.xlabel('Episodes X 50')
+    plt.xlabel('Episodes X 100')
     plt.ylabel('reward Value')
     plt.title(title)
     # Save plot
@@ -43,7 +43,7 @@ def plot_r_values(r_values, title):
     plt.show()
 
 # Update this line with the relative path to your log file within the logs folder
-log_file_name = '/Users/alexanderbensland/Desktop/Code/ESP3201/AI_2.0/upgraded_Pacman_RL_Evironment/logs/DQN2_mediumGrid?.log'
+log_file_name = '/Users/alexanderbensland/Desktop/Code/ESP3201/AI_2.0/upgraded_Pacman_RL_Evironment/logs/DQN2_mediumGrid.log'
 q_values = extract_q_values(log_file_name)
 r_values = extract_r_values(log_file_name)
 # Extracting the file name from the path for the title
