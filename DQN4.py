@@ -1,11 +1,7 @@
-# Modified version of
-# DQN implementation by Tejas Kulkarni found at
-# https://github.com/mrkulk/deepQN_tensorflow
-
 import numpy as np
 import tensorflow as tf
 tf.compat.v1.disable_eager_execution()
-class DQN:
+class DQN4:
     def __init__(self, params):
         self.params = params
         self.network_name = 'qnet'

@@ -25,7 +25,7 @@ from collections import deque
 import tensorflow as tf
 from DQN2 import *
 from DQN3 import *
-from DQN import *
+from DQN4 import *
 from DQN5 import *
 
 params = {
@@ -74,7 +74,7 @@ class PacmanDQN(game.Agent):
         # Start Tensorflow session
         gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.1)
         self.sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
-        self.qnet = DQN5(self.params)
+        self.qnet = DQN3(self.params)
 
         # time started
         self.general_record_time = time.strftime("%a_%d_%b_%Y_%H_%M_%S", time.localtime())
