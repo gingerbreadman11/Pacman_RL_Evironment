@@ -1,11 +1,7 @@
-# Used code from
-# DQN implementation by Tejas Kulkarni found at
-# https://github.com/mrkulk/deepQN_tensorflow
-
 # Used code from:
 # The Pacman AI projects were developed at UC Berkeley found at
 # http://ai.berkeley.edu/project_overview.html
-
+# Code was taken from tychovdo
 
 import numpy as np
 import random
@@ -33,18 +29,16 @@ params = {
     'load_file': None,
     # 'load_file': 'saves/model-v2plswork_913_254',
     # 'save_file': None,
-    'save_file': '5layer_grid',
+    'save_file': '4layer_grid',
     #'save_interval' : 10000, 
     'save_interval': 50000,
     # Training parameters
     'train_start': 1000,    # Episodes before training starts 5000
     'batch_size': 32,       # Replay memory batch size 32
-    'mem_size': 50000,     # Replay memory size 100000
+    'mem_size': 100000,     # Replay memory size 100000
 
     'discount': 0.95,       # Discount rate (gamma value)
     'lr': .0001,            # Learning reate .0002
-    # 'rms_decay': 0.99,      # RMS Prop decay (switched to adam)
-    # 'rms_eps': 1e-6,        # RMS Prop epsilon (switched to adam)
 
     # Epsilon value (epsilon-greedy)
     'eps': 1.0,             # Epsilon start value
@@ -71,10 +65,13 @@ class PacmanDQN(game.Agent):
             if key in self.params:
                 self.params[key] = value
 
+        #here you can choose the DQN you wan to run by changing the number
+        #self.qnet = DQN4(self.params)
+
         # Start Tensorflow session
         gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.1)
         self.sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
-        self.qnet = DQN5(self.params)
+        self.qnet = DQN4(self.params)
 
         # time started
         self.general_record_time = time.strftime("%a_%d_%b_%Y_%H_%M_%S", time.localtime())
