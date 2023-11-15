@@ -29,6 +29,12 @@ params = {
     # Model backups
     'load_file': None,
     # 'load_file': 'saves/model-v2plswork_913_254',
+    #saves/model-2layer_967413_31617
+    # -a load_file=saves/model-2layer_967413_31617
+    #saves/model-ultimate_1084668_5469.data-00000-of-00001
+    # -a load_file=saves/model-ultimate_1084668_5469
+    #saves/model-4layer_grid_920590_28440.index
+    # -a load_file=saves/model-4layer_grid_920590_28440
     # 'save_file': None,
     'save_file': '4layer_grid',
     #'save_interval' : 10000, 
