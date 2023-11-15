@@ -45,7 +45,7 @@ def plot_r_values(r_values, title):
     plt.show()
 
 # Update this line with the relative path to your log file within the logs folder
-log_file_name = '/Users/alexanderbensland/Desktop/Code/ESP3201/AI_2.0/upgraded_Pacman_RL_Evironment/logs/DQN5_mediumGrid.log'
+log_file_name = '/Users/alexanderbensland/Desktop/Code/ESP3201/AI_2.0/upgraded_Pacman_RL_Evironment/logs/DQN4_mediumGrid.log'
 q_values = extract_q_values(log_file_name)
 r_values = extract_r_values(log_file_name)
 # Extracting the file name from the path for the title

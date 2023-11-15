@@ -1,7 +1,8 @@
 # Used code from:
 # The Pacman AI projects were developed at UC Berkeley found at
 # http://ai.berkeley.edu/project_overview.html
-# Code was taken from tychovdo
+# Code was taken from tychovdo van der Ouderaa, Tycho (2016). Deep Reinforcement Learning in Pac-man.
+
 
 import numpy as np
 import random
