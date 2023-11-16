@@ -5,13 +5,13 @@ Deep Reinforcement Learning in Pac-man using convolutional Deep Q-Networks (DQNs
 
 ### Basic Usage
 Run a model on a specific layout for a set number of episodes:
-```bash
+```
 python3 pacman.py -p PacmanDQN -n [num_episodes] -x [num_training] -l [layout]
 ```
 
 ### Using Pre-trained Models
 Load a pre-trained model (note: only compatible with layouts identical in size to the one used during training):
-```bash
+```
 python3 pacman.py -p PacmanDQN -a load_file=[model_path] -n [num_episodes] -x [num_training] -l [layout]
 ```
 
@@ -80,11 +80,11 @@ To adjust the layers of the Deep Q-Network (DQN), you need to modify the specifi
     - **Example**: To change from a 4-layer network to a network with a different number of layers, modify the line as follows:
 
       Before:
-      ```python
+      ```
       self.qnet = DQN4(self.params)
       ```
       After (for a 5-layer network, for example):
-      ```python
+      ```
       self.qnet = DQN5(self.params)
       ```
 
