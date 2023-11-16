@@ -80,6 +80,7 @@ class PacmanDQN(game.Agent):
         self.sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
         self.qnet = DQN4(self.params)
 
+
         # time started
         self.general_record_time = time.strftime("%a_%d_%b_%Y_%H_%M_%S", time.localtime())
         # Q and cost
