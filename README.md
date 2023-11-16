@@ -51,6 +51,9 @@ to visualize a specific plot you have to change the path in the file plotmaker.p
 ## Layouts
 Different layouts are available in the `layouts` directory. New layouts can be created and added to this directory.
 
+you can easily creat eyour own maps just make sure its a lay file
+that is the same size as the map that the model was trained on
+
 ## Customizing Parameters
 Parameters are found in the `params` dictionary in `pacmanDQN_Agents.py`. This includes:
 - `train_start`: Episodes before training starts.
